@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Word Counter</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+        margin: 0;
+        padding: 20px;
+      }
+
+      main {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: 20px;
+        border-radius: 8px;
+      }
+
+      label {
+        font-weight: bold;
+      }
+
+      textarea {
+        width: 100%;
+        height: 150px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        resize: none;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+
+        font-size: 16px;
+      }
+
+      .word-counter__contaier {
+        margin-top: 10px;
+        font-size: 1.2em;
+      }
+
+      button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <label for="text">Text</label>
+      <textarea
+        name="text"
+        id="text"
+        placeholder="Text goes here..."
+        onchange=""
+      ></textarea>
+
+      <br />
+
+      <div class="word-counter__contaier">
+        Word count: <span id="word-count">0</span>
+      </div>
+
+      <button id="save">Save to local store</button>
+    </main>
+  </body>
+
+  <script>
+    const textArea = document.getElementById("text");
+    const wordCountSpan = document.getElementById("word-count");
+
+    textArea.addEventListener("input", () => {
+      const text = textArea.value.trim();
+      const words = text ? text.split(/\s+/) : [];
+      wordCountSpan.textContent = words.length;
+    });
+
+    document.getElementById("save").addEventListener("click", () => {
+      const text = textArea.value;
+      if (!text) {
+        alert("Please enter some text before saving.");
+        return;
+      }
+
+      const wordCounterTexts =
+        JSON.parse(localStorage.getItem("word-counter__texts")) || [];
+      wordCounterTexts.push({ date: new Date().getTime(), text });
+
+      localStorage.setItem(
+        "word-counter__texts",
+        JSON.stringify(wordCounterTexts)
+      );
+      alert("Text saved to local storage!");
+    });
+  </script>
+</html>
