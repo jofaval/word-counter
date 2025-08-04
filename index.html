@@ -5,61 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Word Counter</title>
 
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        color: #333;
-        margin: 0;
-        padding: 20px;
-      }
+    <meta name="description" content="A simple word counter application." />
+    <meta
+      name="keywords"
+      content="word counter, text analysis, local storage"
+    />
+    <meta name="author" content="Pepe Fabra Valverde" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="robots" content="index, follow" />
 
-      main {
-        max-width: 1240px;
-        margin: 0 auto;
-        padding: 20px;
-        border-radius: 8px;
-      }
-
-      label {
-        font-weight: bold;
-      }
-
-      textarea {
-        width: 100%;
-        height: 150px;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        resize: vertical;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-
-        font-size: 16px;
-      }
-
-      .word-counter__contaier {
-        margin-top: 10px;
-        font-size: 1.2em;
-      }
-
-      button {
-        background-color: #007bff;
-        color: white;
-        border: none;
-        padding: 10px 15px;
-        border-radius: 4px;
-        cursor: pointer;
-        margin-top: 10px;
-      }
-
-      button:hover {
-        background-color: #0056b3;
-      }
-    </style>
+    <link rel="stylesheet" href="./styles.css" />
   </head>
 
   <body>
     <main>
+      <h1>Word Counter</h1>
+
       <label for="text">Text</label>
       <textarea
         name="text"
@@ -75,35 +36,21 @@
       </div>
 
       <button id="save">Save to local store</button>
+
+      <br />
+      <br />
+      <br />
+
+      <h2>Saved Texts</h2>
+      <details>
+        <summary>
+          List of all instances (<span class="saved-texts-count">0</span>)
+        </summary>
+
+        <div id="savedTexts"></div>
+      </details>
     </main>
   </body>
 
-  <script>
-    const textArea = document.getElementById("text");
-    const wordCountSpan = document.getElementById("word-count");
-
-    textArea.addEventListener("input", () => {
-      const text = textArea.value.trim();
-      const words = text ? text.split(/\s+/) : [];
-      wordCountSpan.textContent = words.length;
-    });
-
-    document.getElementById("save").addEventListener("click", () => {
-      const text = textArea.value;
-      if (!text) {
-        alert("Please enter some text before saving.");
-        return;
-      }
-
-      const wordCounterTexts =
-        JSON.parse(localStorage.getItem("word-counter__texts")) || [];
-      wordCounterTexts.push({ date: new Date().getTime(), text });
-
-      localStorage.setItem(
-        "word-counter__texts",
-        JSON.stringify(wordCounterTexts)
-      );
-      alert("Text saved to local storage!");
-    });
-  </script>
+  <script src="./main.js"></script>
 </html>
