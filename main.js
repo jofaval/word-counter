@@ -2,7 +2,7 @@
   displaySavedTexts();
 
   getTextArea().addEventListener("input", () => {
-    getWordCountSpan().textContent = countWords(words.length);
+    getWordCountSpan().textContent = countWords(getTextArea().value);
   });
 
   document.getElementById("save").addEventListener("click", onSaveClick);
