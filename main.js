@@ -17,10 +17,16 @@ function getTextArea() {
 
 /**
  * @returns {HTMLSpanElement} The span element that displays the word count.
- *
  */
 function getWordCountSpan() {
   return document.getElementById("word-count");
+}
+
+/**
+ * @returns {HTMLSpanElement} The span element that displays the line count.
+ */
+function getLinesCountSpan() {
+  return document.getElementById("line-count")
 }
 
 /**
@@ -107,6 +113,7 @@ function generateSavedTextElement(item) {
   textDiv.addEventListener("click", () => {
     getTextArea().value = item.text;
     getWordCountSpan().textContent = countWords(item.text);
+    getLinesCountSpan().textContent = countLines(item.text)
   });
 
   return textDiv;
@@ -120,4 +127,14 @@ function countWords(text) {
   const parsedText = text.trim();
   const words = parsedText ? parsedText.split(/\s+/) : [];
   return words.length;
+}
+
+/**
+ * @param {string} text
+ * @returns {number} The number of lines in the text.
+ */
+function countLines() {
+  const parsedText = text.trim();
+  const lines = parsedText ? parsedText.split(/\n+/) : [];
+  return lines.length;
 }
