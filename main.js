@@ -134,7 +134,7 @@ function countWords(text) {
  * @param {string} text
  * @returns {number} The number of lines in the text.
  */
-function countLines() {
+function countLines(text) {
   const parsedText = text.trim();
   const lines = parsedText ? parsedText.split(/\n+/) : [];
   return lines.length;
