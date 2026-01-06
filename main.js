@@ -3,6 +3,7 @@
 
   getTextArea().addEventListener("input", () => {
     getWordCountSpan().textContent = countWords(getTextArea().value);
+    getLinesCountSpan().textContent = countLines(getTextArea().value);
   });
 
   document.getElementById("save").addEventListener("click", onSaveClick);
@@ -113,7 +114,7 @@ function generateSavedTextElement(item) {
   textDiv.addEventListener("click", () => {
     getTextArea().value = item.text;
     getWordCountSpan().textContent = countWords(item.text);
-    getLinesCountSpan().textContent = countLines(item.text)
+    getLinesCountSpan().textContent = countLines(item.text);
   });
 
   return textDiv;
