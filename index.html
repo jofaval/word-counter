@@ -34,12 +34,41 @@
 
       <br />
 
-      <div class="word-counter__contaier">
-        Word count: <span id="word-count">0</span>
+      <div class="stats-container">
+        <div class="stat-card">
+          <div class="stat-value" id="word-count">0</div>
+          <div class="stat-label">Words</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-value" id="line-count">0</div>
+          <div class="stat-label">Lines</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-value" id="char-count">0</div>
+          <div class="stat-label">Characters</div>
+        </div>
       </div>
 
-      <div class="word-counter__contaier">
-        Line count: <span id="line-count">0</span>
+      <div class="reading-time-section">
+        <h3>Reading Time Estimation</h3>
+        <div class="reading-time-config">
+          <label for="wpm-input">Words per minute:</label>
+          <input 
+            type="number" 
+            id="wpm-input" 
+            value="200" 
+            min="50" 
+            max="1000" 
+            step="10"
+          />
+        </div>
+        <div class="reading-time-result">
+          <div class="time-icon">⏱️</div>
+          <div class="time-value" id="reading-time">0 min</div>
+          <div class="time-label">Estimated reading time</div>
+        </div>
       </div>
 
       <button id="save">Save to local store</button>

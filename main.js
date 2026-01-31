@@ -1,12 +1,16 @@
 (() => {
   displaySavedTexts();
+  loadWPMFromStorage();
 
   getTextArea().addEventListener("input", () => {
-    getWordCountSpan().textContent = countWords(getTextArea().value);
-    getLinesCountSpan().textContent = countLines(getTextArea().value);
+    updateAllStats();
   });
 
   document.getElementById("save").addEventListener("click", onSaveClick);
+  document.getElementById("wpm-input").addEventListener("input", () => {
+    saveWPMToStorage();
+    updateReadingTime();
+  });
 })();
 
 /**
@@ -27,7 +31,28 @@ function getWordCountSpan() {
  * @returns {HTMLSpanElement} The span element that displays the line count.
  */
 function getLinesCountSpan() {
-  return document.getElementById("line-count")
+  return document.getElementById("line-count");
+}
+
+/**
+ * @returns {HTMLSpanElement} The span element that displays the character count.
+ */
+function getCharCountSpan() {
+  return document.getElementById("char-count");
+}
+
+/**
+ * @returns {HTMLSpanElement} The span element that displays the reading time.
+ */
+function getReadingTimeSpan() {
+  return document.getElementById("reading-time");
+}
+
+/**
+ * @returns {HTMLInputElement} The input element for words per minute.
+ */
+function getWPMInput() {
+  return document.getElementById("wpm-input");
 }
 
 /**
@@ -113,8 +138,7 @@ function generateSavedTextElement(item) {
 
   textDiv.addEventListener("click", () => {
     getTextArea().value = item.text;
-    getWordCountSpan().textContent = countWords(item.text);
-    getLinesCountSpan().textContent = countLines(item.text);
+    updateAllStats();
   });
 
   return textDiv;
@@ -138,4 +162,78 @@ function countLines(text) {
   const parsedText = text.trim();
   const lines = parsedText ? parsedText.split(/\n+/) : [];
   return lines.length;
+}
+
+/**
+ * @param {string} text
+ * @returns {number} The number of characters in the text.
+ */
+function countCharacters(text) {
+  return text.length;
+}
+
+/**
+ * @param {number} wordCount
+ * @param {number} wpm
+ * @returns {string} The estimated reading time formatted as string.
+ */
+function calculateReadingTime(wordCount, wpm) {
+  if (!wordCount || !wpm || wpm <= 0) return "0 min";
+  
+  const minutes = Math.ceil(wordCount / wpm);
+  
+  if (minutes < 1) {
+    return "< 1 min";
+  } else if (minutes === 1) {
+    return "1 min";
+  } else if (minutes < 60) {
+    return `${minutes} min`;
+  } else {
+    const hours = Math.floor(minutes / 60);
+    const remainingMinutes = minutes % 60;
+    return remainingMinutes > 0 ? `${hours}h ${remainingMinutes}min` : `${hours}h`;
+  }
+}
+
+/**
+ * Update all statistics displays.
+ * @returns {void}
+ */
+function updateAllStats() {
+  const text = getTextArea().value;
+  getWordCountSpan().textContent = countWords(text);
+  getLinesCountSpan().textContent = countLines(text);
+  getCharCountSpan().textContent = countCharacters(text);
+  updateReadingTime();
+}
+
+/**
+ * Update the reading time display.
+ * @returns {void}
+ */
+function updateReadingTime() {
+  const text = getTextArea().value;
+  const wordCount = countWords(text);
+  const wpm = parseInt(getWPMInput().value) || 200;
+  getReadingTimeSpan().textContent = calculateReadingTime(wordCount, wpm);
+}
+
+/**
+ * Save WPM value to localStorage.
+ * @returns {void}
+ */
+function saveWPMToStorage() {
+  const wpm = getWPMInput().value;
+  localStorage.setItem("word-counter__wpm", wpm);
+}
+
+/**
+ * Load WPM value from localStorage.
+ * @returns {void}
+ */
+function loadWPMFromStorage() {
+  const savedWPM = localStorage.getItem("word-counter__wpm");
+  if (savedWPM) {
+    getWPMInput().value = savedWPM;
+  }
 }
